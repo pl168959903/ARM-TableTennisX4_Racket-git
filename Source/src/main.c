@@ -2,6 +2,7 @@
 #include "vMemXor.h"
 
 DMA_DESC_T DMA_DESC[ 2 ];
+const uint8_t dataZero = 0;
 
 void DisableDigtalPin( void ) {
     PA->DINOFF = PB->DINOFF = PC->DINOFF = PD->DINOFF = PE->DINOFF = PF->DINOFF = 0ul;
@@ -38,16 +39,26 @@ void PdmaInit( void ) {
 }
 
 void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32_t dataSize ) {
+    const static uint8_t dataZero = NULL;
     uint32_t en_ch = ( _MASK( _SPI0_TX_PDMA_CH ) | _MASK( _SPI0_RX_PDMA_CH ) );
 
-    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_SAR_INC | PDMA_DAR_FIX | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
-    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA  = ( uint32_t )tdata;
-    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].DA  = ( uint32_t )&spi->TX;
 
-    PDMA->DSCT[ _SPI0_RX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_SAR_FIX | PDMA_DAR_INC | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
-    PDMA->DSCT[ _SPI0_RX_PDMA_CH ].SA  = ( uint32_t )&spi->RX;
-    PDMA->DSCT[ _SPI0_RX_PDMA_CH ].DA  = ( uint32_t )rdata;
+    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_DAR_FIX | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
+    if ( tdata == NULL ) {
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_FIX;
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = (uint32_t)&dataZero;
+    }
+    else {
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_INC;
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = ( uint32_t )tdata;
+    }
+    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].DA = ( uint32_t )&spi->TX;
 
+    if ( rdata != NULL ) {
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_SAR_FIX | PDMA_DAR_INC | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].SA  = ( uint32_t )&spi->RX;
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].DA  = ( uint32_t )rdata;
+    }
     SPI_TRIGGER_TX_PDMA( SPI0 );
     spi->PDMACTL |= ( SPI_PDMACTL_RXPDMAEN_Msk | SPI_PDMACTL_TXPDMAEN_Msk );
 
@@ -63,8 +74,7 @@ void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32
 }
 
 int main( void ) {
-    uint8_t data[ 5 ]   = { 0x01, 0x02, 0x03, 0x04, 0x05 };
-    uint8_t redata[ 5 ] = { 0 };
+    uint8_t data[ 5 ] = { 0x00,  0x01, 0x02, 0x03, 0x04};
 
     pinConfig_init();
     DisableDigtalPin();
@@ -87,9 +97,9 @@ int main( void ) {
     SpiInit();
     PdmaInit();
 
-    SpiReadAndWriteByPdma( _NRF_SPI, data, data, 5 );
+    SpiReadAndWriteByPdma( _NRF_SPI, data, NULL, 5 );
 
-    //TIMER_Delay( TIMER0, 100000 );
+    // TIMER_Delay( TIMER0, 100000 );
 
     for ( size_t i = 0; i < 5; i++ ) { printf( "%02x ", data[ i ] ); }
 

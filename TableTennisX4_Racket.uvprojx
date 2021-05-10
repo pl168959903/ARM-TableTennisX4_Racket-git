@@ -339,7 +339,7 @@
               <MiscControls>-Wno-unknown-attributes</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\ARM-M031_BSP\CMSIS\Include;..\..\ARM-M031_BSP\Device\Nuvoton\M031\Include;..\..\ARM-M031_BSP\StdDriver\inc;.\MCU_Setup\clockConfig;.\MCU_Setup\pinConfig;.\Source\inc;..\..\External\nRF;..\..\External\vMemXorLinkList</IncludePath>
+              <IncludePath>..\..\ARM-M031_BSP\CMSIS\Include;..\..\ARM-M031_BSP\Device\Nuvoton\M031\Include;..\..\ARM-M031_BSP\StdDriver\inc;.\MCU_Setup\clockConfig;.\MCU_Setup\pinConfig;.\Source\inc;..\..\External\nRF24L01P;..\..\External\vMemXorLinkList</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -509,19 +509,24 @@
           <GroupName>User_library</GroupName>
           <Files>
             <File>
-              <FileName>nRF24L01.c</FileName>
+              <FileName>vMemXor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\External\nRF\nRF24L01.c</FilePath>
+              <FilePath>..\..\External\vMemXorLinkList\vMemXor.c</FilePath>
             </File>
             <File>
               <FileName>nRF24L01_drv_hook.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\External\nRF\nRF24L01_drv_hook.c</FilePath>
+              <FilePath>..\..\External\nRF24L01P\nRF24L01_drv_hook.c</FilePath>
             </File>
             <File>
-              <FileName>vMemXor.c</FileName>
+              <FileName>nRF24L01.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\External\vMemXorLinkList\vMemXor.c</FilePath>
+              <FilePath>..\..\External\nRF24L01P\nRF24L01.c</FilePath>
+            </File>
+            <File>
+              <FileName>nRF24L01_Base.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\External\nRF24L01P\nRF24L01_Base.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -14,6 +14,8 @@
 #define _SPI0_TX_PDMA_CH 0
 #define _SPI0_RX_PDMA_CH 1
 
+#define _NRF_CE_PIN PD0
+
 typedef struct dma_desc_t {
     uint32_t ctl;
     uint32_t src;
