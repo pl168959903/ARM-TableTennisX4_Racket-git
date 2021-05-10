@@ -540,8 +540,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Library\vMemXorLinkList\vMemXor.c</PathWithFileName>
-      <FilenameWithoutPath>vMemXor.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\External\nRF\nRF24L01.c</PathWithFileName>
+      <FilenameWithoutPath>nRF24L01.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -552,8 +552,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Library\nRF\nRF24L01.c</PathWithFileName>
-      <FilenameWithoutPath>nRF24L01.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\External\nRF\nRF24L01_drv_hook.c</PathWithFileName>
+      <FilenameWithoutPath>nRF24L01_drv_hook.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -564,8 +564,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Library\nRF\nRF24L01_drv_hook.c</PathWithFileName>
-      <FilenameWithoutPath>nRF24L01_drv_hook.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\External\vMemXorLinkList\vMemXor.c</PathWithFileName>
+      <FilenameWithoutPath>vMemXor.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
