@@ -10,14 +10,14 @@
       <TargetName>TableTennisX4_Racket</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6150000::V6.15::ARMCLANG</pCCUsed>
+      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>M032SG8AE</Device>
           <Vendor>Nuvoton</Vendor>
-          <PackID>Nuvoton.NuMicro_DFP.1.3.8</PackID>
-          <PackURL>http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack</PackURL>
+          <PackID>Nuvoton.NuMicro_DFP.1.3.11</PackID>
+          <PackURL>https://www.nuvoton.com/enu/Documents/KEILSoftwarePack</PackURL>
           <Cpu>IRAM(0x20000000,0x10000) IROM(0x00000000,0x40000) CPUTYPE("Cortex-M0") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>

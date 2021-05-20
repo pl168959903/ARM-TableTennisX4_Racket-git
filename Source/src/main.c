@@ -1,9 +1,6 @@
 #include "Project.h"
 #include "vMemXor.h"
 
-DMA_DESC_T DMA_DESC[ 2 ];
-const uint8_t dataZero = 0;
-
 void DisableDigtalPin( void ) {
     PA->DINOFF = PB->DINOFF = PC->DINOFF = PD->DINOFF = PE->DINOFF = PF->DINOFF = 0ul;
     PA->DINOFF |= ~( BIT1 | BIT4 | BIT5 | BIT6 | BIT7 | BIT9 ) << 16;
@@ -20,8 +17,10 @@ void HircTrim( void ) {
     while ( !( SYS->HIRCTRIMCTL & SYS_HIRCTRIMSTS_FREQLOCK_Msk ) ) {};
     return;
 }
-void EnablePullUpPin( void ) {
+void GPIOModeSetup( void ) {
     GPIO_SetMode( PA, BIT4 | BIT5, GPIO_MODE_QUASI );
+    GPIO_SetMode( PB, BIT7 | BIT8 | BIT9, GPIO_MODE_OUTPUT );
+    GPIO_SetMode( PD, BIT0, GPIO_MODE_OUTPUT );
     return;
 }
 void I2cInit( void ) {
@@ -37,16 +36,14 @@ void PdmaInit( void ) {
     PDMA_SetTransferMode( PDMA, _SPI0_TX_PDMA_CH, PDMA_SPI0_TX, FALSE, 0 );
     PDMA_SetTransferMode( PDMA, _SPI0_RX_PDMA_CH, PDMA_SPI0_RX, FALSE, 0 );
 }
-
 void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32_t dataSize ) {
     const static uint8_t dataZero = NULL;
-    uint32_t en_ch = ( _MASK( _SPI0_TX_PDMA_CH ) | _MASK( _SPI0_RX_PDMA_CH ) );
-
+    uint32_t             en_ch    = ( _MASK( _SPI0_TX_PDMA_CH ) | _MASK( _SPI0_RX_PDMA_CH ) );
 
     PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_DAR_FIX | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
     if ( tdata == NULL ) {
         PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_FIX;
-        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = (uint32_t)&dataZero;
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = ( uint32_t )&dataZero;
     }
     else {
         PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_INC;
@@ -72,17 +69,17 @@ void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32
         }
     }
 }
-
 int main( void ) {
-    uint8_t data[ 5 ] = { 0x00,  0x01, 0x02, 0x03, 0x04};
+    uint8_t data[ 5 ] = { 0x00, 0x01, 0x02, 0x03, 0x04 };
 
     pinConfig_init();
     DisableDigtalPin();
-    EnablePullUpPin();
-
+    GPIOModeSetup();
     HircTrim();
     clockConfig_init();
+
     UART_Open( UART0, 921600 );
+
     printf( "CPU: %d Hz\n", CLK_GetCPUFreq() );
     printf( "HCLK: %d Hz\n", CLK_GetHCLKFreq() );
     printf( "HXT: %d Hz\n", CLK_GetHXTFreq() );
@@ -91,6 +88,7 @@ int main( void ) {
     printf( "PCLK1: %d Hz\n", CLK_GetPCLK1Freq() );
     printf( "PLL: %d Hz\n", CLK_GetPLLClockFreq() );
     printf( "UART: %d Hz\n", CLK_GetUARTFreq() );
+
 
     TIMER_Open( TIMER0, TIMER_CONTINUOUS_MODE, 1000000 );
     I2cInit();

@@ -147,34 +147,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>66</LineNumber>
+          <LineNumber>95</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>12828</Address>
+          <Address>12912</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\Project\ARM\M031_Series_BSP_CMSIS_V3.03.000\Project\ARM_TableTennisX4\TableTennisX4_Racket\Source\src\vMemXor.c</Filename>
+          <Filename>.\Source\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\TableTennisX4_Racket\Source/src/vMemXor.c\66</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>94</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>13162</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\Project\ARM\M031_Series_BSP_CMSIS_V3.03.000\Project\ARM_TableTennisX4\TableTennisX4_Racket\Source\src\vMemXor.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\TableTennisX4_Racket\Source/src/vMemXor.c\94</Expression>
+          <Expression>\\TableTennisX4_Racket\Source/src/main.c\95</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

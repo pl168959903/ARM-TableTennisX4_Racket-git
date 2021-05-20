@@ -15,16 +15,12 @@
 #define _SPI0_RX_PDMA_CH 1
 
 #define _NRF_CE_PIN PD0
+#define _LED_R_PIN PB7
+#define _LED_G_PIN PB9
+#define _LED_B_PIN PB8
 
-typedef struct dma_desc_t {
-    uint32_t ctl;
-    uint32_t src;
-    uint32_t dest;
-    uint32_t offset;
-} DMA_DESC_T;
 
 void DisableDigtalPin( void );
-
 void PinFunctionInit( void );
 void SystemClockInit( void );
 void ModuleClockInit( void );
