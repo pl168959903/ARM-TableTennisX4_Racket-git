@@ -1,5 +1,20 @@
 #include "Project.h"
+#include "nRF24L01_Base_API.h"
 #include "vMemXor.h"
+
+static nRF_interface_T nRF0_interface;
+static nRF_T           nRF0;
+
+void testFunction( void ) {
+    uint8_t data;
+    nRF0_interface = ( nRF_interface_T ){ nRF0_ReadAndWrite, nRF0_CE };
+    nRF0           = ( nRF_T ){ &nRF0_interface };
+
+    for ( uint8_t i = 0; i <= 0x1D; i++ ) {
+        nRF_ReadRegByte( &nRF0, i, &data );
+        printf( "data %d : 0x%02X\n", i, data );
+    }
+}
 
 void DisableDigtalPin( void ) {
     PA->DINOFF = PB->DINOFF = PC->DINOFF = PD->DINOFF = PE->DINOFF = PF->DINOFF = 0ul;
@@ -38,26 +53,37 @@ void PdmaInit( void ) {
 }
 void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32_t dataSize ) {
     const static uint8_t dataZero = NULL;
-    uint32_t             en_ch    = ( _MASK( _SPI0_TX_PDMA_CH ) | _MASK( _SPI0_RX_PDMA_CH ) );
+    uint32_t             en_ch    = 0;
 
-    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_DAR_FIX | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
-    if ( tdata == NULL ) {
-        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_FIX;
-        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = ( uint32_t )&dataZero;
-    }
-    else {
-        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL |= PDMA_SAR_INC;
+    if ( tdata != NULL ) {
+        en_ch |= _MASK( _SPI0_TX_PDMA_CH );
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].CTL =                   //
+            ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) |  //
+            PDMA_WIDTH_8 |                                     //
+            PDMA_SAR_INC |                                     //
+            PDMA_DAR_FIX |                                     //
+            PDMA_REQ_SINGLE |                                  //
+            PDMA_TBINTDIS_DISABLE |                            //
+            PDMA_OP_BASIC;                                     //
         PDMA->DSCT[ _SPI0_TX_PDMA_CH ].SA = ( uint32_t )tdata;
+        PDMA->DSCT[ _SPI0_TX_PDMA_CH ].DA = ( uint32_t )&spi->TX;
+        spi->PDMACTL |= SPI_PDMACTL_TXPDMAEN_Msk;
     }
-    PDMA->DSCT[ _SPI0_TX_PDMA_CH ].DA = ( uint32_t )&spi->TX;
 
     if ( rdata != NULL ) {
-        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].CTL = ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) | PDMA_WIDTH_8 | PDMA_SAR_FIX | PDMA_DAR_INC | PDMA_REQ_SINGLE | PDMA_TBINTDIS_DISABLE | PDMA_OP_BASIC;
-        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].SA  = ( uint32_t )&spi->RX;
-        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].DA  = ( uint32_t )rdata;
+        en_ch |= _MASK( _SPI0_RX_PDMA_CH );
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].CTL =                   //
+            ( ( dataSize - 1 ) << PDMA_DSCT_CTL_TXCNT_Pos ) |  //
+            PDMA_WIDTH_8 |                                     //
+            PDMA_SAR_FIX |                                     //
+            PDMA_DAR_INC |                                     //
+            PDMA_REQ_SINGLE |                                  //
+            PDMA_TBINTDIS_DISABLE |                            //
+            PDMA_OP_BASIC;                                     //
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].SA = ( uint32_t )&spi->RX;
+        PDMA->DSCT[ _SPI0_RX_PDMA_CH ].DA = ( uint32_t )rdata;
+        spi->PDMACTL |= SPI_PDMACTL_RXPDMAEN_Msk;
     }
-    SPI_TRIGGER_TX_PDMA( SPI0 );
-    spi->PDMACTL |= ( SPI_PDMACTL_RXPDMAEN_Msk | SPI_PDMACTL_TXPDMAEN_Msk );
 
     while ( 1 ) {
         if ( PDMA_GET_INT_STATUS( PDMA ) & PDMA_INTSTS_TDIF_Msk ) {
@@ -69,14 +95,17 @@ void SpiReadAndWriteByPdma( SPI_T* spi, uint8_t tdata[], uint8_t rdata[], uint32
         }
     }
 }
+
 int main( void ) {
     uint8_t data[ 5 ] = { 0x00, 0x01, 0x02, 0x03, 0x04 };
 
     pinConfig_init();
-    DisableDigtalPin();
-    GPIOModeSetup();
     HircTrim();
     clockConfig_init();
+    DisableDigtalPin();
+    GPIOModeSetup();
+
+    _LED_G_PIN = 0;
 
     UART_Open( UART0, 921600 );
 
@@ -89,17 +118,20 @@ int main( void ) {
     printf( "PLL: %d Hz\n", CLK_GetPLLClockFreq() );
     printf( "UART: %d Hz\n", CLK_GetUARTFreq() );
 
+    // TIMER_Open( TIMER0, TIMER_CONTINUOUS_MODE, 1000000 );
 
-    TIMER_Open( TIMER0, TIMER_CONTINUOUS_MODE, 1000000 );
     I2cInit();
     SpiInit();
     PdmaInit();
 
-    SpiReadAndWriteByPdma( _NRF_SPI, data, NULL, 5 );
+    // SpiReadAndWriteByPdma( _NRF_SPI, NULL, data, 5 );
 
     // TIMER_Delay( TIMER0, 100000 );
 
-    for ( size_t i = 0; i < 5; i++ ) { printf( "%02x ", data[ i ] ); }
+    // for ( size_t i = 0; i < 5; i++ ) { printf( "%02x ", data[ i ] ); }
+
+    // test
+    testFunction();
 
     while ( true ) {};
     return 0;

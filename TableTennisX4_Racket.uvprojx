@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -488,6 +488,11 @@
               <FileType>1</FileType>
               <FilePath>.\Source\src\main.c</FilePath>
             </File>
+            <File>
+              <FileName>nRF24L01_drv_hook.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\src\nRF24L01_drv_hook.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -512,16 +517,6 @@
               <FileName>vMemXor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\External\vMemXorLinkList\vMemXor.c</FilePath>
-            </File>
-            <File>
-              <FileName>nRF24L01_drv_hook.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\External\nRF24L01P\nRF24L01_drv_hook.c</FilePath>
-            </File>
-            <File>
-              <FileName>nRF24L01.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\External\nRF24L01P\nRF24L01.c</FilePath>
             </File>
             <File>
               <FileName>nRF24L01_Base.c</FileName>

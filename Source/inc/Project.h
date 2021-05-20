@@ -1,11 +1,14 @@
 #ifndef __PROJECT_H
 #define __PROJECT_H
 
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdint.h>
+
 #include "NuMicro.h"
 #include "clockConfig.h"
 #include "pinConfig.h"
-#include <stdbool.h>
-#include <stdio.h>
 
 #define _MASK( bit ) ( 0x1ul << bit )
 
@@ -25,5 +28,10 @@ void PinFunctionInit( void );
 void SystemClockInit( void );
 void ModuleClockInit( void );
 void HircTrim( void );
+
+/*--------------------------------Driver Hook Funciton--------------------------------*/
+// nRF0
+void nRF0_ReadAndWrite( uint8_t readBuf[], uint8_t writeBuf[], size_t size);
+void nRF0_CE(bool cePin);
 
 #endif /* __PROJECT_H */
