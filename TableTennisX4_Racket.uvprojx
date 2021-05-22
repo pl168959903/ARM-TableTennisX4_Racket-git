@@ -523,6 +523,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\External\nRF24L01P\nRF24L01_Base.c</FilePath>
             </File>
+            <File>
+              <FileName>nRF24L01_Drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\external\nRF24L01P\nRF24L01_Drv.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

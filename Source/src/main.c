@@ -2,13 +2,11 @@
 #include "nRF24L01_Base_API.h"
 #include "vMemXor.h"
 
-static nRF_interface_T nRF0_interface;
-static nRF_T           nRF0;
+static nRF_interface_T nRF0_interface = { nRF0_ReadAndWrite, nRF0_CE, nRF0_Delay };
+static nRF_T           nRF0 = { &nRF0_interface };
 
 void testFunction( void ) {
     uint8_t data;
-    nRF0_interface = ( nRF_interface_T ){ nRF0_ReadAndWrite, nRF0_CE };
-    nRF0           = ( nRF_T ){ &nRF0_interface };
 
     for ( uint8_t i = 0; i <= 0x1D; i++ ) {
         nRF_ReadRegByte( &nRF0, i, &data );
@@ -118,7 +116,7 @@ int main( void ) {
     printf( "PLL: %d Hz\n", CLK_GetPLLClockFreq() );
     printf( "UART: %d Hz\n", CLK_GetUARTFreq() );
 
-    // TIMER_Open( TIMER0, TIMER_CONTINUOUS_MODE, 1000000 );
+    TIMER_Open( TIMER0, TIMER_CONTINUOUS_MODE, 1000000 );
 
     I2cInit();
     SpiInit();
@@ -126,7 +124,8 @@ int main( void ) {
 
     // SpiReadAndWriteByPdma( _NRF_SPI, NULL, data, 5 );
 
-    // TIMER_Delay( TIMER0, 100000 );
+     //TIMER_Delay( TIMER0, 100000 );
+     
 
     // for ( size_t i = 0; i < 5; i++ ) { printf( "%02x ", data[ i ] ); }
 

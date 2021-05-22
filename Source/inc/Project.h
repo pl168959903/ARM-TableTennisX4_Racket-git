@@ -33,5 +33,6 @@ void HircTrim( void );
 // nRF0
 void nRF0_ReadAndWrite( uint8_t readBuf[], uint8_t writeBuf[], size_t size);
 void nRF0_CE(bool cePin);
+void nRF0_Delay(uint32_t us);
 
 #endif /* __PROJECT_H */

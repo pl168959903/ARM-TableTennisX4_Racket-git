@@ -10,4 +10,7 @@ void nRF0_CE(bool cePin){
     _NRF_CE_PIN = cePin;
 }
 
+void nRF0_Delay(uint32_t us){
+    CLK_SysTickDelay(us);
+}
 

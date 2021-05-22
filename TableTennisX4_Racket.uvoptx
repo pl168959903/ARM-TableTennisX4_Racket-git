@@ -125,7 +125,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=75,104,486,533,0)(1007=105,137,312,358,0)(1008=90,121,466,357,0)</Name>
+          <Name>(1010=-1089,163,-678,592,1)(1007=-688,261,-481,482,1)(1008=-498,217,-122,453,1)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -147,9 +147,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>98</LineNumber>
+          <LineNumber>123</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>5656</Address>
+          <Address>6714</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -158,14 +158,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Source\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\TableTennisX4_Racket\Source/src/main.c\98</Expression>
+          <Expression>\\TableTennisX4_Racket\Source/src/main.c\123</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>11</LineNumber>
+          <LineNumber>133</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>5866</Address>
+          <Address>6744</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -174,14 +174,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Source\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\TableTennisX4_Racket\Source/src/main.c\11</Expression>
+          <Expression>\\TableTennisX4_Racket\Source/src/main.c\133</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>12</LineNumber>
+          <LineNumber>106</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>5874</Address>
+          <Address>6520</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -190,7 +190,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Source\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\TableTennisX4_Racket\Source/src/main.c\12</Expression>
+          <Expression>\\TableTennisX4_Racket\Source/src/main.c\106</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -209,12 +209,17 @@
           <WinNumber>1</WinNumber>
           <ItemText>nRF0</ItemText>
         </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>_LED_G_PIN</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
       <DebugFlag>
-        <trace>0</trace>
+        <trace>1</trace>
         <periodic>1</periodic>
         <aLwin>0</aLwin>
         <aCover>0</aCover>
@@ -230,11 +235,11 @@
         <AscS3>0</AscS3>
         <aSer3>0</aSer3>
         <eProf>0</eProf>
-        <aLa>0</aLa>
+        <aLa>1</aLa>
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>0</aSer4>
-        <StkLoc>0</StkLoc>
+        <StkLoc>1</StkLoc>
         <TrcWin>0</TrcWin>
         <newCpu>0</newCpu>
         <uProt>0</uProt>
@@ -584,6 +589,18 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\External\nRF24L01P\nRF24L01_Base.c</PathWithFileName>
       <FilenameWithoutPath>nRF24L01_Base.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>25</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\external\nRF24L01P\nRF24L01_Drv.c</PathWithFileName>
+      <FilenameWithoutPath>nRF24L01_Drv.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
